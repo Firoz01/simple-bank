@@ -12,7 +12,7 @@ migrateup:
 migratedown:
 	migrate -database postgres://root:abcd1234@localhost:5432/simple_bank?sslmode=disable  -path db/migrations -verbose down 
 sqlc:
-	sqlc generate
+	docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate
 .PHONY:
 	postgres createdb dropdb migrateup migratedown	
 	
