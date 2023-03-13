@@ -16,16 +16,13 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-    
       postgres:
-       
         image: postgres
-        
         env:
           POSTGRES_USER: root
           POSTGRES_DB: simple_bank
           POSTGRES_PASSWORD: abcd1234
-       ports:
+        ports:
           - 5432:5432
         options: >-
           --health-cmd pg_isready
