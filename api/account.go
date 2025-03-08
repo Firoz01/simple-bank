@@ -2,7 +2,6 @@ package api
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 
 	db "github.com/Firoz01/simple-bank/db/sqlc"
@@ -46,8 +45,6 @@ func (server *Server) getAccount(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-
-	fmt.Println(req.ID)
 
 	account, err := server.store.GetAccount(ctx, req.ID)
 	if err != nil {
