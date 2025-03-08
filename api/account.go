@@ -2,7 +2,7 @@ package api
 
 import (
 	"database/sql"
-	"fmt"
+	"errors"
 	"net/http"
 
 	db "github.com/Firoz01/simple-bank/db/sqlc"
@@ -14,6 +14,7 @@ type createAccountRequest struct {
 	Currency string `json:"currency" binding:"required,oneof=USD EUR"`
 }
 
+// createAccount create account to the database
 func (server *Server) createAccount(ctx *gin.Context) {
 	var req createAccountRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -47,11 +48,9 @@ func (server *Server) getAccount(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Println(req.ID)
-
 	account, err := server.store.GetAccount(ctx, req.ID)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 		}
 
